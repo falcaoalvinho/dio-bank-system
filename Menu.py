@@ -4,6 +4,6 @@ def printOpercoes() -> None:
     print(f'''
         1) Depositar
         2) Sacar
-        3) Sair
+        3) Gerar extrato
     ''')
     print('=' * 60)
