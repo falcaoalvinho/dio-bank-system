@@ -1,22 +1,30 @@
 import os
+import Menu
+import Conta
+import Cliente
 
 # Classe Caixa
 # Armazena constantes e algumas variáveis do projeto
 # Permite manipulação dos valores em depositos e saques
 class sistema():
-
     def __init__(self):
         # Constantes do caixa
-        self.SAQUES_DIARIOS = 3
-        self.LIMITE_SAQUE = 500
+        self.SAQUES_DIARIOS: int = 3
+        self.LIMITE_SAQUE: float = 500
 
         # Variáveis do caixa
-        self.cedulas = {'200': 10, '100': 10, '50': 10, '20': 10, '10': 10, '5': 10, '2': 10 }
-        self.saldo = 0
-        self.saques_efetuados = 0
+        self.cedulas: dict = {'200': 10, '100': 10, '50': 10, '20': 10, '10': 10, '5': 10, '2': 10 }
+        self.saldo: int = 0
+        self.saques_efetuados: int = 0
+
+        self.clientes: dict = {} # Armazenameto dos Clientes ('cpf' : obj.cliente)
+
+        # Armazenamento das Contas 
+        # self.contas: dict = {} #('cpf' : [conta1, conta2, ...])
+        self.id_conta: int = 1
 
         # Começo da construção do extrato
-        self.extrato = 'EXTRATO'.center(60, '=')
+        self.extrato: str = 'EXTRATO'.center(60, '=')
         self.extrato += f'\nSALDO INICIAL: {self.saldo}'
 
     def contarCedulas(self, cedulas: dict) -> int:
@@ -29,7 +37,27 @@ class sistema():
             valor += int(i) * cedulas[i]
         return valor
     
-    def depositar(self) -> {str, int}:
+    def loginCliente(self, cpf: str) -> None:
+        if cpf in self.clientes:
+            return True
+        else:
+            print('🚫[ERRO] Cliente não cadastrado!')
+            return False
+        
+    def cadastrarCliente(self, cliente: Cliente.cliente):
+        if cliente.cpf not in self.clientes:
+            self.clientes[cliente.cpf] = cliente
+            print('Cliente cadastrado com suscesso!')
+
+        else:
+            print('🚫[ERRO] Cliente já cadastrado!')
+
+    def cadastrarConta(self, cliente: Cliente.cliente):
+       self.clientes[cliente.cpf].contas.append(Conta.conta(self.id_conta, cliente.cpf))
+       self.id_conta += 1
+       print(f'Conta cadastrada no nome de {cliente.nome} com sucesso!')
+
+    def depositar(self, conta: Conta.conta) -> {str, int}:
         # Função responsável pelos depositos no caixa
         # Capaz de computar quantas cédulas de cada estão sendo inseridas no programa
         # Calcula o valor usando a quantidade de cédulas e seus respectivos valores
@@ -54,15 +82,15 @@ class sistema():
                     self.cedulas[i] += cedulas_depositadas[i]
 
         valor_deposito = self.contarCedulas(cedulas_depositadas)
-        self.saldo += valor_deposito
+        conta.saldo += valor_deposito
 
-        print(f'\n    Saldo total: {self.saldo}')
+        print(f'\n    Saldo total: {conta.saldo}')
         print(f'    Valor total do deposito: {valor_deposito}')
         print('=' * 60)
 
-        return {'valor_deposito': f'\n    +{valor_deposito}', 'valor_saldo': self.saldo}
-    
-    def sacar(self) -> {str, int}:
+        return {'valor_deposito': f'\n    +{valor_deposito}', 'valor_saldo': conta.saldo}
+        
+    def sacar(self, conta: Conta.conta) -> {str, int}:
         # Função responsável pelos saques no caixa
         # Capaz de computar quantas cédulas de cada estão sendo retiradas no programa calculando os valores corretos de acordo com o saque 
         # Retorna o valor novo do saldo e o registro para ser adicionado no extrato
@@ -72,7 +100,7 @@ class sistema():
 
         print('SAQUE'.center(60, '='))
         print(f'   SAQUE MÁXIMO: {self.LIMITE_SAQUE}')
-        print(f'   Saldo disponível: {self.saldo}')
+        print(f'   Saldo disponível: {conta.saldo}')
 
         try:
             saque = int(input('\n   Digite o valor do saque: '))
@@ -84,7 +112,7 @@ class sistema():
             self.sacar()
 
         else:
-            if saque <= self.saldo and saque <= self.LIMITE_SAQUE:
+            if saque <= conta.saldo and saque <= self.LIMITE_SAQUE:
                 for i in self.cedulas:
                     self.cedulas[i] -= saque // int(i)
                     cedulas_usadas[i] += saque // int(i)
@@ -93,12 +121,12 @@ class sistema():
             else:
                 print('\n🚫[ERRO] Valor do saque excedeu o limite, por favor tente denovo')
                 print(f'\n{'='*60}')
-                self.sacar(self.cedulas, self.saldo, self.LIMITE_SAQUE)
+                self.sacar(self.cedulas, conta.saldo, self.LIMITE_SAQUE)
 
-        self.saldo -= self.contarCedulas(cedulas_usadas)
+        conta.saldo -= self.contarCedulas(cedulas_usadas)
 
         print('    O valor foi sacado da sua conta')
-        print(f'    Saldo atual: {self.saldo}')
+        print(f'    Saldo atual: {conta.saldo}')
         print('=' * 60)
 
-        return {'valor_saque': f'\n    -{valor_saque}', 'valor_saldo': self.saldo}
+        return {'valor_saque': f'\n    -{valor_saque}', 'valor_saldo': conta.saldo}
