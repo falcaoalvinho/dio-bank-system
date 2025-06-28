@@ -1,22 +1,20 @@
 # Pacotes importados para o projeto
-import os
 import Menu
 from Caixa import sistema
-from Cliente import cliente
-from Conta import conta
 
 # Função principal
+# Dividada em loops diferentes para cada ciclo de operações
+#   1º loop permite login e cadastro de novos clientes
+#   2º loop coleta todas as contas do cliente que efetuou o login e permite escolha de 1 para operações bancárias, também permite adicionar novas contas para cliente
+#   3º loop permite realização de operações bancárias e ao final saída da execução do programa exibindo extrato
 def main() -> int:
+    # Variáveis globais
     caixa = sistema()
     entrada_cpf = ''
     entrada_conta = 0
 
-    alan = cliente(nome='Alan', data_nascimento='01/01/2000', cpf='1010', endereco='Casa do Caralho')
-    caixa.cadastrarCliente(alan)
-    caixa.cadastrarConta(alan)
-
+    # 1º loop
     while True:
-        # os.system('cls')
         Menu.iniciar()
 
         try:
@@ -26,9 +24,9 @@ def main() -> int:
             ('🚫[ERRO] Valor incorreto, por favor retorne um valor válido')
 
         else:
+            # Caso para efetuar login do usuário usando o cpf cadastrado
             if entrada_iniciar == 1:
                 try:
-                    # os.system('cls')
                     Menu.login()
                     entrada_cpf: str = input()
 
@@ -38,24 +36,26 @@ def main() -> int:
                 else:
                     if caixa.loginCliente(entrada_cpf):
                         break 
-
+            
+            # Caso para efetuar cadastro de um novo cliente
             elif entrada_iniciar == 2:
-                # os.system('cls')
                 Menu.cadastro(caixa)
             
+            # Caso de saída 
             elif entrada_iniciar == 3:
-                # os.system('cls')
                 print('Operações finalizadas obrigado por usar o sistema')
-                return 0
+                return 0 # Retorno para função main()
 
+    # 2º loop
     while True:
+        # Atribuição de valor para variável global que controla em qual conta as operações estão sendo realizadas
         entrada_conta = Menu.contas(cliente=caixa.clientes[entrada_cpf], sistema=caixa)  
         break
 
-
+    # 3º loop
     while True:
         Menu.operacoes(caixa.clientes[entrada_cpf].contas[entrada_conta - 1])
-
+        
         try:
             operacao_atual = int(input())
 

@@ -1,7 +1,6 @@
-import os
-import Menu
-import Conta
-import Cliente
+# Imports do arquivo
+from Conta import conta
+from Cliente import cliente
 
 # Classe Caixa
 # Armazena constantes e algumas variáveis do projeto
@@ -38,13 +37,20 @@ class sistema():
         return valor
     
     def loginCliente(self, cpf: str) -> None:
+        # Essa função determina se o login foi bem sucedido verificando
+        # se o cpf de fato foi cadastrado na lista de clientes do caixa
+        # retornando verdadeiro ou falso
+
         if cpf in self.clientes:
             return True
         else:
             print('🚫[ERRO] Cliente não cadastrado!')
             return False
         
-    def cadastrarCliente(self, cliente: Cliente.cliente):
+    def cadastrarCliente(self, cliente: cliente) -> None:
+        # Este metódo cadastra os dados dos clientes caso já não exista um cpf 
+        # igual registrado na lista, senão retorna uma mensagem de erro
+
         if cliente.cpf not in self.clientes:
             self.clientes[cliente.cpf] = cliente
             print('Cliente cadastrado com suscesso!')
@@ -52,12 +58,15 @@ class sistema():
         else:
             print('🚫[ERRO] Cliente já cadastrado!')
 
-    def cadastrarConta(self, cliente: Cliente.cliente):
-       self.clientes[cliente.cpf].contas.append(Conta.conta(self.id_conta, cliente.cpf))
+    def cadastrarConta(self, cliente: cliente) -> None:
+       # Este metódo vincula os dados do cliente que está realizando as operações com uma
+       # nova conta e a registra nas listas do sistema
+
+       self.clientes[cliente.cpf].contas.append(conta(self.id_conta, cliente.cpf))
        self.id_conta += 1
        print(f'Conta cadastrada no nome de {cliente.nome} com sucesso!')
 
-    def depositar(self, conta: Conta.conta) -> {str, int}:
+    def depositar(self, conta: conta) -> {str, int}:
         # Função responsável pelos depositos no caixa
         # Capaz de computar quantas cédulas de cada estão sendo inseridas no programa
         # Calcula o valor usando a quantidade de cédulas e seus respectivos valores
@@ -72,10 +81,13 @@ class sistema():
             while True:
                 try:
                     cedulas_depositadas[i] += int(input(f'Cédulas no valor de {i}: ')) 
+
                     if cedulas_depositadas[i] < 0:
                         raise ValueError('🚫[ERRO] O valor não pode ser negativo')
+                    
                     self.cedulas[i] += cedulas_depositadas[i]
                     break
+
                 except ValueError:
                     print('\n   🚫[ERRO] Valor incorreto, por favor retorne um valor válido\n')
                     cedulas_depositadas[i] += int(input(f'Cédulas no valor de {i}: ')) 
@@ -90,7 +102,7 @@ class sistema():
 
         return {'valor_deposito': f'\n    +{valor_deposito}', 'valor_saldo': conta.saldo}
         
-    def sacar(self, conta: Conta.conta) -> {str, int}:
+    def sacar(self, conta: conta) -> {str, int}:
         # Função responsável pelos saques no caixa
         # Capaz de computar quantas cédulas de cada estão sendo retiradas no programa calculando os valores corretos de acordo com o saque 
         # Retorna o valor novo do saldo e o registro para ser adicionado no extrato
