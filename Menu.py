@@ -40,7 +40,7 @@ def cadastro(sistema: Caixa.sistema) -> None:
     sistema.cadastrarCliente(Cliente.cliente(nome= nome, data_nascimento=data_nascimento, cpf=cpf, endereco=endereco))
     
 def contas(cliente: Cliente.cliente, sistema: Caixa.sistema) -> int:
-    os.system('cls')
+    # os.system('cls')
     print(f'Contas de {cliente.nome}'.center(60, '='))
 
     print()
@@ -50,11 +50,13 @@ def contas(cliente: Cliente.cliente, sistema: Caixa.sistema) -> int:
     print('\nAperte [ENTER] para cadastrar uma conta')
     entrada_contas = input('Selecione uma conta: ')
 
-    if entrada_contas == '':
-        os.system('cls')
-        sistema.cadastrarConta(cliente)
-        contas(cliente=cliente, sistema=sistema)
-    else: 
+    if entrada_contas != '':
+        print('=' * 60)
         return int(entrada_contas)
-    print('=' * 60)
+    
+    else: 
+        # os.system('cls')
+        sistema.cadastrarConta(cliente)
+        print('=' * 60)
+        return contas(cliente=cliente, sistema=sistema)
     

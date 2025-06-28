@@ -121,12 +121,12 @@ class sistema():
             else:
                 print('\n🚫[ERRO] Valor do saque excedeu o limite, por favor tente denovo')
                 print(f'\n{'='*60}')
-                self.sacar(self.cedulas, conta.saldo, self.LIMITE_SAQUE)
+                return self.sacar(conta=conta)
 
-        conta.saldo -= self.contarCedulas(cedulas_usadas)
+            conta.saldo -= self.contarCedulas(cedulas_usadas)
 
-        print('    O valor foi sacado da sua conta')
-        print(f'    Saldo atual: {conta.saldo}')
-        print('=' * 60)
+            print('    O valor foi sacado da sua conta')
+            print(f'    Saldo atual: {conta.saldo}')
+            print('=' * 60)
 
-        return {'valor_saque': f'\n    -{valor_saque}', 'valor_saldo': conta.saldo}
+            return {'valor_saque': f'\n    -{valor_saque}', 'valor_saldo': conta.saldo}
