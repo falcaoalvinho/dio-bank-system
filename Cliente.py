@@ -10,10 +10,10 @@ class cliente(pessoaFisica):
         self.__endereco = None
         self.__contas   = []
 
-    def get_endereco(self):
+    def get_endereco(self) -> str:
         return self.__endereco
     
-    def get_contas(self):
+    def get_contas(self) -> list:
         return self.__contas
 
     def set_endereco(self, endereco: str) -> None:
