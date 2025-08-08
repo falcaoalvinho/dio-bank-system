@@ -1,5 +1,8 @@
 from PessoaFisica import PessoaFisica
+from Transacao import Transacao
+from Conta import Conta
 from datetime import date
+
 
 class Cliente(PessoaFisica):
     def __init__(self, cpf: str, nome: str, data_nascimento: date, endereco: str, contas: list):
@@ -11,10 +14,8 @@ class Cliente(PessoaFisica):
         if endereco.strip() != "":
             self.__endereco = endereco
 
-    #FIX ME: Criar classes Conta
     def adcionar_conta(self, conta) -> None:
         self.__contas.append(conta)
-        
-    #FIX ME: Criar classes Conta e Transacao
-    def realizar_transacao(self, conta, transacao) -> None:
+
+    def realizar_transacao(self, conta: Conta, transacao: Transacao) -> None:
         pass
