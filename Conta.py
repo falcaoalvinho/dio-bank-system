@@ -2,7 +2,7 @@ from Cliente import Cliente
 from Historico import Historico
 from Transacao import Transacao
 
-class Conta:
+class Conta():
     def __init__(self, saldo: float, numero: int, agencia: str, cliente: Cliente, historico: Historico):
         self.__saldo     = saldo
         self.__numero    = numero
