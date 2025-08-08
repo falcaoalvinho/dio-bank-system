@@ -1,19 +1,18 @@
 from datetime import date
 
-
 class pessoaFisica:
     def __init__(self):
         self.__cpf = None
         self.__nome = None
         self.__data_nascimento = None
 
-    def get_cpf(self):
+    def get_cpf(self) -> str:
         return self.__cpf
     
-    def get_nome(self):
+    def get_nome(self) -> str:
         return self.__nome
     
-    def get_data_nascimento(self):
+    def get_data_nascimento(self) -> date:
         return self.__data_nascimento
 
     def set_cpf(self, cpf: str) -> None:
