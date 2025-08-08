@@ -8,7 +8,7 @@ class conta():
         self.__agencia   = None
         self.__historico = None
 
-    def nova_conta(self, numero: int):
+    def nova_conta(self, numero: int) -> None:
         self.__saldo = 0
         self.__numero = numero
         self.__agencia = "000"
@@ -17,13 +17,13 @@ class conta():
     def get_saldo(self) -> float:
         return self.__saldo
     
-    def get_numero(self):
+    def get_numero(self) -> int:
         return self.__numero
     
-    def get_agencia(self):
+    def get_agencia(self) -> str:
         return self.__agencia
     
-    def get_historico(self):
+    def get_historico(self) -> historico:
         return self.__historico
     
     def sacar(self, valor: float) -> bool:
