@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-class Deposito(ABC):
+class deposito(ABC):
     def __init__(self, valor: float = 0):
         self.__valor = valor
 

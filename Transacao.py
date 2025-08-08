@@ -1,8 +1,7 @@
-from Saque import Saque
-from Deposito import Deposito
-from Conta import Conta
+from Saque import saque
+from Deposito import deposito
 
-class Transacao(Saque, Deposito):
+class transacao(saque, deposito):
     def __init(self, valor: float = 0):
         self.__valor = valor
     
