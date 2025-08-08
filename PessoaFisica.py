@@ -1,11 +1,20 @@
 from datetime import date
 
 
-class PessoaFisica:
-    def __init__(self, cpf: str, nome: str, data_nascimento: date):
-        self.__cpf = cpf
-        self.__nome = nome
-        self.__data_nascimento = data_nascimento
+class pessoaFisica:
+    def __init__(self):
+        self.__cpf = None
+        self.__nome = None
+        self.__data_nascimento = None
+
+    def get_cpf(self):
+        return self.__cpf
+    
+    def get_nome(self):
+        return self.__nome
+    
+    def get_data_nascimento(self):
+        return self.__data_nascimento
 
     def set_cpf(self, cpf: str) -> None:
         self.__cpf = cpf
