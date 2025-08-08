@@ -10,4 +10,4 @@ class transacao(saque, deposito):
         self.valor = valor
 
     def registrar(self, conta):
-        conta.saldo += self.valor
+        conta.set_saldo(conta.get_saldo() + self.valor)

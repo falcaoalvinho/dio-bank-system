@@ -26,11 +26,14 @@ class conta():
     def get_historico(self) -> historico:
         return self.__historico
     
+    def set_saldo(self, valor) -> None:
+        self.__saldo = valor
+    
     def sacar(self, valor: float) -> bool:
         if -valor <= 0:
-            transacao = transacao()
-            transacao.set_valor(-valor)
-            transacao.registrar(self)
+            trans = transacao()
+            trans.set_valor(-valor)
+            trans.registrar(self)
 
             return True
         return False
@@ -38,9 +41,9 @@ class conta():
 
     def depositar(self, valor: float) -> bool:
         if valor >= 0:
-            transacao = transacao()
-            transacao.set_valor(valor)
-            transacao.registrar(self)
+            trans = transacao()
+            trans.set_valor(valor)
+            trans.registrar(self)
 
             return True
         return False
