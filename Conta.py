@@ -1,24 +1,34 @@
-from Cliente import Cliente
-from Historico import Historico
-from Transacao import Transacao
+from Historico import historico
+from Transacao import transacao
 
-class Conta():
-    def __init__(self, saldo: float, numero: int, agencia: str, cliente: Cliente, historico: Historico):
-        self.__saldo     = saldo
-        self.__numero    = numero
-        self.__agencia   = agencia
-        self.__cliente   = cliente
-        self.__historico = historico
+class conta():
+    def __init__(self):
+        self.__saldo     = None
+        self.__numero    = None
+        self.__agencia   = None
+        self.__historico = None
 
-    def nova_conta(self, cliente: Cliente, numero: int):
-        return Conta(saldo = 0, numero = numero, agencia = "000", cliente = cliente, historico = Historico())
+    def nova_conta(self, numero: int):
+        self.__saldo = 0
+        self.__numero = numero
+        self.__agencia = "000"
+        self.__historico = historico()
 
-    def saldo(self) -> float:
-        return self.saldo
+    def get_saldo(self) -> float:
+        return self.__saldo
+    
+    def get_numero(self):
+        return self.__numero
+    
+    def get_agencia(self):
+        return self.__agencia
+    
+    def get_historico(self):
+        return self.__historico
     
     def sacar(self, valor: float) -> bool:
         if -valor <= 0:
-            transacao = Transacao
+            transacao = transacao()
             transacao.set_valor(-valor)
             transacao.registrar(self)
 
@@ -28,7 +38,7 @@ class Conta():
 
     def depositar(self, valor: float) -> bool:
         if valor >= 0:
-            transacao = Transacao
+            transacao = transacao()
             transacao.set_valor(valor)
             transacao.registrar(self)
 
