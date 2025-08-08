@@ -3,4 +3,5 @@ class Saque:
         self.__valor = valor
 
     def set_valor(self, valor: float = 0) -> None:
-        self.__valor = valor
+        if -valor <= 0:
+            self.__valor = -valor
